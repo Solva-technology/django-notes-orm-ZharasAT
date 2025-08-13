@@ -9,7 +9,7 @@
     <div class="list-group">
         {% for note in notes %}
             <a href="{% url 'notes:note_detail' note.id %}" class="list-group-item list-group-item-action mb-2">
-                <h5 class="mb-1">{{ note.text|truncatechars:100 }}</h5>
+                <h5 class="mb-1">{{ note.preview }}</h5>
                 <p class="mb-1">
                     <strong>Автор:</strong> {{ note.author.name }} |
                     <strong>Статус:</strong> {{ note.status.name }} |
