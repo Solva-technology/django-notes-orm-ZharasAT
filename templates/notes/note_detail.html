@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Заметка №{{ note.id }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Заметка от 
+    <a href="{% url 'notes:user_detail' note.author.id %}">{{ note.author.name }}</a>
+</h2>
+
+<ul>
+    <li><strong>Email:</strong> {{ note.author.email }}</li>
+    <li><strong>Биография:</strong> {{ note.author.profile.bio|default:"—" }}</li>
+    <li><strong>Дата рождения:</strong> {{ note.author.profile.birth_date|date:"d.m.Y" }}</li>
+</ul>
+
+<p class="fs-5">{{ note.text }}</p>
+
+<hr>
+<h5>Статус:</h5>
+<p>{{ note.status.name }}{% if note.status.is_final %} <span class="badge bg-success">Финальный</span>{% endif %}</p>
+
+<h5>Категории:</h5>
+<ul>
+    {% for category in note.categories.all %}
+        <li>{{ category.title }}</li>
+    {% empty %}
+        <li class="text-muted">Нет категорий</li>
+    {% endfor %}
+</ul>
+
+<p class="text-muted">Создано: {{ note.created_at|date:"d.m.Y H:i" }}</p>
+{% endblock %}

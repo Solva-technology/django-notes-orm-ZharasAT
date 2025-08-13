@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Список заметок{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Список заметок</h2>
+
+{% if notes %}
+    <div class="list-group">
+        {% for note in notes %}
+            <a href="{% url 'notes:note_detail' note.id %}" class="list-group-item list-group-item-action mb-2">
+                <h5 class="mb-1">{{ note.preview }}</h5>
+                <p class="mb-1">
+                    <strong>Автор:</strong> {{ note.author.name }} |
+                    <strong>Статус:</strong> {{ note.status.name }} |
+                    <strong>Категории:</strong>
+                    {% for category in note.categories.all %}
+                        <span class="badge bg-secondary">{{ category.title }}</span>
+                    {% empty %}
+                        <span class="text-muted">Нет категорий</span>
+                    {% endfor %}
+                </p>
+                <small class="text-muted">Создано: {{ note.created_at|date:"d.m.Y H:i" }}</small>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">Заметок пока нет.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<h2>{{ user.name }}</h2>
+<ul>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    <li><strong>Биография:</strong> {{ user.profile.bio|default:"—" }}</li>
+    <li><strong>Дата рождения:</strong> {{ user.profile.birth_date|date:"d.m.Y" }}</li>
+</ul>
+
+<hr>
+<h4>Заметки пользователя:</h4>
+{% if user.notes.all %}
+    <ul class="list-group">
+        {% for note in user.notes.all %}
+            <li class="list-group-item">
+                <a href="{% url 'notes:note_detail' note.id %}">
+                    {{ note.text|truncatechars:100 }}
+                </a>
+                <br>
+                <small class="text-muted">Статус: {{ note.status.name }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">Заметок пока нет.</p>
+{% endif %}
+{% endblock %}
